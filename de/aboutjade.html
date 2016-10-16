@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<!--
+  Original Design: Spectral by HTML5 UP
+    html5up.net | @n33co
+    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+  Jekyll build mod
+-->
+<html>
+
+  <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Martin Wiesmüller</title>
+  <meta name="description" content="Software Developer and Car-garage application designer
+">
+  <!--[if lte IE 8]><script src="/js/ie/html5shiv.js"></script><![endif]-->
+  <link rel="canonical" href="https://mwiesmueller.github.io//aboutjade">
+  <link rel="stylesheet" href="/css/main.css" />
+  <!--[if lte IE 8]><link rel="stylesheet" href="/css/ie8.css" /><![endif]-->
+  <!--[if lte IE 9]><link rel="stylesheet" href="/css/ie9.css" /><![endif]-->
+  <link rel="alternate" type="application/rss+xml" title="Martin Wiesmüller" href="https://mwiesmueller.github.io//feed.xml">
+</head>
+
+
+  <body>
+
+    <!-- Page Wrapper -->
+    <div id="page-wrapper">
+
+      <!-- Header -->
+<header id="header">
+  <h1><a href="/de/index.html">Martin Wiesmüller</a></h1>
+  <nav id="nav">
+    <ul>
+      <li class="special">
+        <a href="#menu" class="menuToggle"><span>Menu</span></a>
+        <div id="menu">
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            
+            
+            
+            
+            <li><a href="/de/aboutme">About me</a></li>
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/de/generic.html">articlelist</a></li>
+            
+            
+            
+            
+            
+            <li><a href="/de/projects">Projects</a></li>
+            
+            
+            <li><a href="/de/feed.xml"
+                   class="icon fa-feed"> RSS Feed</a></li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+
+      <article id="main">
+  <div style='background-color: #fff; width: 100%; display: block;'>
+    <img src='/images/wordcloud.jpeg' style='width: 600px; margin-left: auto; margin-right: auto; display: block;'>
+  </div>
+
+  <header>
+    <p>Jade - Das unbekannte Wesen der Webentwicklung</p>
+  </header>
+  <section class="wrapper style5">
+    <div class="inner">
+      <p>
+Ob auf Konferenzen, Meetup-Talks oder Onlinetalks musste ich feststellen, dass das Webentwicklervolk kein schreibfaules Volk sein muss. Denn bei vielen Kollegen ist Jade zwar ein Begriff, aber wirklich anwenden tut es fast keiner. Das hat mich dazu veranlasst diesen Artikel (meinen Ersten &#128512;) zu schreiben.
+
+Das viele dieser Webentwicklerkollegen sich damit nicht befassen oder befasst haben kann man auch sehr gut nachvollziehen. Wenn ich diese Themen auf mich selbst reflektiere hatte ich bis vor einem Jahr die Auffassung, dass in Jade geschriebener Code komisch aussieht und einfach nicht dem HTML Standard entspricht. Hinzu kamen noch Bedenken beim deployen was die performance angeht. Denn der Webserver muss ja den in Jade geschriebenen Code noch in ein für den Browser lesbares Format übersetzen. Wenn ich die Themen heute betrachte, muss ich über meine damalige Einstellung grinsen. Denn alle Bedenken sind nicht gerechtfertigt.
+
+<h4>Jade vs Html</h4>
+Nun aber.. Was sind die Vorteile von Jade gegenüber normalen Html. Dies will ich euch nun mal an einem direkten Beispiel zeigen:
+</p>
+
+<pre>
+  <code>
+    <xmp>
+    <html>
+        <head>
+            <style>
+                .container {
+                    background-color: yellow;
+                    color: red;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">Hello World</div>
+        </body>
+    </html>
+    </xmp>
+  </code>
+</pre>
+
+<pre>
+  <code>
+    html
+      head
+        style.
+          .container {
+          background-color: yellow;
+          color: red;
+          }
+      body
+        .container Hello World
+  </code>
+</pre>
+
+<p>
+Wie in diesen zwei Beispielen deutlich erkennbar ist, enthält das im Jade geschriebene Schnipsel nur 9 anstatt 13 Zeilen. Ebenso ist der Code auch deutlich lesbarer da keinerlei Klammern vorhanden sind. Wir sind uns einig, dass der in Jade geschriebene Code gewöhnungsbedürftig ist. Aber man findet sich sehr schnell zurecht.
+
+Die hauptsächlichen Unterschiede bzw. Vorteile sind:
+
+<ul>
+  <li>Keine Klammern</li>
+  <br />
+  <li>Tags werden anhand von Einrückungen spezifiziert daher müssen Tags im Gegensatz zu Html nicht mehr geschlossen werden.</li>
+</ul>
+
+Was natürlich klar ist, wer mit Jade arbeitet muss das Thema Einrückungen strikt beachten. Denn dies ist bei Jade einer der größten Fehlerursachen. Aber Editoren wie Atom, Sublime und co liefern hier super syntax-highlighting-tools. Ich persönlich verwende aktuell das Packages atom-jade im Atom. Jetzt werdet ihr euch sicher fragen warum sollte ich das brauchen? Vorallem Anwender von Visulstudio sind es ja gewohnt, dass Tags automatisch geschlossen werden sobald ich diese eröffne. Grundsätzlich muss man diesen Leuten recht geben. Aber nicht jeder arbeitet gerne mit Microsoftprodukten und wenn jemand in ein Projekt neu mit einsteigt erleichtert Jade die Arbeit erheblich.
+</p>
+
+<h4>Jetzt will ich's wissen</h4>
+
+<p>
+Alle von euch, die bis hier her gelesen haben, habe ich anscheinend mit Neugiere gefixt. Dann wollen wir mal step by step ein kleines Projekt anlegen mit welchen wir Jadefiles ausliefern wollen. Grundsätzlich gibt es Webserver, mit welchen wir direkt Jade-Files ausliefern können. Hier könnte <a href="https://www.npmjs.com/package/harp" target="_blank">Harp</a> beispielsweise zum Einsatz kommen. Allerdings sollte man dies nicht produktiv verwenden. Das Rendern von Jade-Files kostet sehr viel performance und kann sich dadurch auf die Qualität eueres Projektes auswirken. Dies bedeutet, wir müssen dafür sorgen, dass unsere Jade-Files beim deploy in Html-Files gerendert werden. Zusätzlich wäre es ratsam das dabei entstehende HTML-File zu minifizieren um den traffic zu mindern.
+</p>
+
+<p>
+Hier kommen dann die sogenannten Task-Runner zum Einsatz. Manche von euch verwenden sicherlich schon <a href="https://www.npmjs.com/package/grunt" target="_blank">Grunt</a> oder <a href="https://www.npmjs.com/package/gulp" target="_blank">Gulp</a>. In meinem Beispiel werde ich den Taskrunner Gulp anwenden. Für <a href="https://www.npmjs.com/package/grunt" target="_blank">Grunt</a> gibt es ein NPM Package Namens <a href="https://www.npmjs.com/package/gulp-jade" target="_blank">Gulp-Jade</a>. Diese Package sorgt dafür, dass unsere Jade-Files gerendert werden.
+<br />
+Bedeutet wir legen zuerst ein neues Projekt an und installieren unsere Packages:
+</p>
+
+<pre>
+  <code>
+    npm install --save-dev --save-exact gulp gulp-jade
+  </code>
+</pre>
+
+<p>
+Nachdem unsere NPM Packages installiert wurden können wir nun damit beginnen Gulp zu konfigurieren. Dies bedeutet wir legen in der Root des Projektes ein File Namens Gulpfile.js an. In diesem File wollen wir nun Gulp bzw. Gulp-Jade konfigurieren.
+</p>
+
+<pre>
+  <code>
+    'use strict';
+
+    const gulp = require('gulp');
+    const jade = require('gulp-jade');
+
+    gulp.task('renderjade', () =&gt; {
+      gulp.src('./lib/*.jade')
+        .pipe(jade())
+        .pipe(gulp.dest('./dist/'))
+    });
+
+    gulp.task('default', shell.task([
+      'gulp renderjade'
+    ]));
+  </code>
+</pre>
+
+<p>
+Wie ihr hier erkennen könnt wird hier ein Task mit dem Namen "renderjade" angelegt. Dieser hat die Aufgabe alle Files im Verzeichnis "lib" und der Endung .jade zu rendern und anschließend im Folder "dist" als Html-Files abzulegen. Der Vorteil vom diesem Task ist, dass der Task in dieser Form die Html-Files automatisch minifiziert. Wenn man aber die Option "pretty" mitliefert, dann wird aus Jade ein lesbares strukturiertes Html erstellt.
+<br />
+Die Einstellung würde dann etwas so aussehen:
+</p>
+
+<pre>
+  <code>
+    gulp.task('renderjade', () =&gt; {
+      gulp.src('./lib/*.jade')
+        .pipe(jade({ pretty: true }))
+        .pipe(gulp.dest('./dist/'))
+    });
+  </code>
+</pre>
+
+<h4>Jetzt wird es richtig innovativ... Jade in Angular 2 und Webpack</h4>
+
+<p>
+Es ist ja alles schön und gut mit Jade zu arbeiten. Aber wie verwende ich Jade zusammen mit einem Framework. Grundsätzlich ist es so, dass Jade jederzeit in der Deploy-Kette mit eingebunden werden kann. Aber nachdem ich mich jetzt im letzten halben Jahr intensiv mit Angular 2 befasst habe, kam auch Webpack bei mir sehr schnell ins Spiel. Und hier ist das Zusammenspiel zwischen Webpack und Angular2 gemeinsam mit Jade mehr als gelungen.
+<br />
+Da mit Angular 2 der Standard vielmehr Richtung Komponenten geschaffen wurde, kann man sein Jade-File innerhalb einer Komponente prima einbinden:
+</p>
+
+<pre>
+  <code>
+    @Component({
+      selector: 'mycomponent',
+      template: require('!jade!./mycomponent.component.jade')(),
+      styles: [],
+      providers: [],
+      directives: [],
+      pipes: []
+    })
+  </code>
+</pre>
+
+<p>
+Vorraussetzung hierfür ist, dass in Webpack der <a href="https://www.npmjs.com/package/jade-loader" target="_blank">jade-loader</a> mit eingebunden ist. Wenn dies erfolgt ist, kann per "require" und der Anführung "!jade!" + Filename direkt auf das Jade-File verwiesen werden. Im Buildprozess rendert Webpack das Jadefile und macht aus der Component ein inline-Html innerhalb der Komponente.
+</p>
+
+
+    </div>
+  </section>
+
+</article>
+
+
+      <!-- Footer -->
+<footer id="footer">
+  <ul class="icons">
+    
+    
+    
+    <li><a target="_blank" href="https://twitter.com/mwiesmueller" class="icon fa-twitter"
+           ><span class="label">twitter</span></a></li>
+    
+    
+    
+    
+    
+    <li><a target="_blank" href="https://github.com/mwiesmueller" class="icon fa-github"
+           ><span class="label">github</span></a></li>
+    
+    
+    
+    
+    
+    <li><a target="_blank" href="https://linkedin.com/in/mwiesmueller" class="icon fa-linkedin-square"
+           ><span class="label">linkedin-square</span></a></li>
+    
+    
+    
+    
+    
+    <li><a target="_blank" href="https://facebook.com/martin.wiesmuller.98" class="icon fa-facebook-official"
+           ><span class="label">facebook-official</span></a></li>
+    
+    
+    
+  </ul>
+  <ul class="copyright">
+    <li>&copy; 
+    
+      
+      
+    
+    2016
+    Martin Wiesmüller</li>
+  </ul>
+</footer>
+
+
+      <!-- Scripts -->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.scrollex.min.js"></script>
+<script src="/js/jquery.scrolly.min.js"></script>
+<script src="/js/skel.min.js"></script>
+<script src="/js/util.js"></script>
+<!--[if lte IE 8]><script src="/js/ie/respond.min.js"></script><![endif]-->
+<script src="/js/main.js"></script>
+
+
+    </div>
+
+  </body>
+
+</html>
