@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/mwiesmueller/mwiesmueller.github.io/issues"
   },
-  "homepage": "https://github.com/mwiesmueller/mwiesmueller.github.io#readme"
+  "homepage": "https://github.com/mwiesmueller/mwiesmueller.github.io#readme",
+  "devDependencies": {
+    "gulp-gh-pages": "^0.5.4"
+  }
 }
