@@ -1,0 +1,518 @@
+<p>
+Die weite Entwicklung in der Web Welt bietet inzwischen eine ganze Menge an Möglichkeiten, testgetriebener Entwicklungen durchzuführen. Neben der Möglichkeit Komponententests mit <a href='https://karma-runner.github.io' target='_blank'>Karma</a> und <a href='http://phantomjs.org/' traget='_blank'>PhantomJs</a>, wollen wir uns heute mal eine Möglichkeit ansehen um End2End Tests mithilfe von <a href='http://www.protractortest.org/#/' target='_blank'>Protractor</a> durchzuführen. Und um anschließend eine Testabdeckung über verschiedene Browser und deren Versionen zu erhalten, wollen wir das ganze zusammen mithilfe von <a href='https://saucelabs.com/' taget='_blank'>SauceLabs</a> realiseren.
+</p>
+
+<h3>Warum E2E Test's? Vor- und Nachteile..</h3>
+
+<p>
+Bei den End to End Tests gibt es Vor-, aber auch Nachteile. Daher gibt auch nur die richtige Balance zwischen Unit- und den E2E-Testing richtig Sinn eine Applikation zu testen. Im Gegensatz zu den Unit-Tests kann bei den E2E Tests die komplette Applikation in den Browser geladen und getestet werden. Dies ist natürlich auch schon einer der großen Vorteile bei dieser Testmethode. Allerdings kann auch jede Änderung am Quellcode eine umfangreiche Änderung der End to End Test-Suites nach sich ziehen. Folglich kann dies bedeuten, dass zwischen der Entwicklung der Tests und der Funktionalitäten einer Applikation sehr viel Zeit liegen kann. Bei der Informationsbeschaffung für diesen Artikel habe ich auch von Fällen gehört, bei denen die kompletten Entwicklungen einer Applikation zum erliegen kamen weil die E2E Tests die Veröffentlichung einer Version verhindert haben.
+</p>
+
+<p>
+Zudem habe ich von Fälle gehört, wo für die Entwicklung der E2E- und Unit Tests die Abteilungen größer waren als die der Entwicklung der Applikation selbst. Hier kommt dann natürlich auch schnell die Frage auf, wie hier "Testgetriebene" Entwicklung noch funktionieren kann. Ebenso stellt man dann das Testen selbstverständlich in Frage. Daher nochmal ein paar Vor- und Nachteile gegeneinander gestellt:
+</p>
+
+<p>
+  <table>
+    <tr>
+      <td width='50%'>
+        <h5>Vorteile</h5>
+        <br>
+        <ul>
+          <li>Kommunikation zwischen Front- und Backend wird getestet</li>
+          <li>Wie sieht der User meine Applikation?</li>
+          <li>Testung alle Funktionalitäten direkt vom Browser aus</li>
+          <li>Cross-Browser Testing</li>
+        </ul>
+      </td>
+
+      <td width='50%'>
+        <h5>Nachteile</h5>
+        <br>
+        <ul>
+          <li>Entwicklung der E2E Tests kosten mitunter sehr viel Zeit</li>
+          <li>Eine Änderung innerhalb der Applikation kann eine aufwendige Änderung der Test-Suites nach sich ziehen</li>
+          <li>Je nach Größe der Applikation oder des Projektes ist personeller Aufwand erforderlich</li>
+          <li>Kosten bei Cross-Browser Testing (Sauce Labs)</li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</p>
+
+<p>
+Trotz der mitunter gerechtfertigten Nachteile sehe ich die Anwendung von E2E Tests als unabdingbar. Gerade bei der Entwicklung der E2E Tests in Richtung der verschiedenen Browser stellt man oft fest, dass die Browser doch nicht alle gleich ticken. Und das nicht nur zwischen den unterschiedlichen Typen, sondern auch zwischen den Versionen eines Browser. Und solche unterschiedlichen Verhaltensweisen, welche auch ganz schnell zu gravierenden Bugs führen können, stellt man oft nur bei der Entwicklung solcher E2E Tests fest.
+</p>
+
+<p>
+Aber diese Tests als notwendiges Übel anzusehen ist nicht richtig. Man muss nur die richtige Balance zwischen Unit- und E2E Tests halten sowie die richtige Tiefe der E2E Tests definieren. Folglich die sinnvolle Gestaltung der Tests. Ebenso kann diese Testmethode die Unit-Tests keinesfalls ersetzen. Die Durchführung der E2E Tests sind als "Zusätzlich" zu betrachten.
+</p>
+
+<h3>Protractor.Js</h3>
+
+<p>
+<a href='http://www.protractortest.org/#/' target='_blank'>Protractor</a> ist ein Testframework welches speziell für Angular Applikationen entwickelt wurde. Die Entwicklung basiert auf Node und setzt auf <a href='https://github.com/SeleniumHQ/selenium/wiki/WebDriverJs' target='_blank'>WebDriverJs</a> von Selenium auf. Dieses Framework stellt den Mittelpunkt der Schnittstelle zwischen eurer Tests und den Browser dar.
+</p>
+
+<p>
+Die Version 4 von <a href='http://www.protractortest.org/#/' target='_blank'>Protractor</a> ist lauffähig auf Node Version größer 4. In dieser Version werden alle Angular Applikationen größer 1.1.4 unterstützt. Alle Angular 2 Applikationen werden ebenfalls unterstützt. Allerdings wird hier das Testen auf Bindings und Models nicht unterstützt.
+<br>
+<br>
+Nähere und die aktuellsten Informationen findet Ihr auf der Github Page von <a href='http://www.protractortest.org/#/' target='_blank'>Protractor</a>.
+</p>
+
+<h3>Sauce Labs</h3>
+
+<p>
+Um sich das Thema Cross-Browser Testing deutlich zu vereinfachen, bietet <a href='https://saucelabs.com/' taget='_blank'>SauceLabs</a> für die E2E Tests hier eine spitzen Integrationsmöglichkeit für Protractor. <a href='https://saucelabs.com/' taget='_blank'>SauceLabs</a> bietet einen Selenium Dienst in der Cloud an, mit welchen alle aktuellsten Browser und Versionen von Protractor angesprochen werden können. Die zu testenden Browser werden in Protractor definiert und beim starten der Tests an den Seleniumdienst von <a href='https://saucelabs.com/' taget='_blank'>SauceLabs</a> übergeben.
+</p>
+
+<div align='center'>
+  <img src='{{ site.baseurl_root }}/images/saucelabtest/testscheme.jpg' style='width: 350px; margin-left: auto; margin-right: auto; display: block;'>
+</div>
+<br>
+<br>
+<p>
+Der Dienst erstellt nun eine virtuelle Maschine mit der genannten Browserversion und führt darin die definierten Test-Suites durch. Darüber hinaus werden die Tests von <a href='https://saucelabs.com/' taget='_blank'>SauceLabs</a> aufgezeichnet sowie Screenshots erstellt. Diese können hinterher sehr bequem innerhalb der UI von SauceLabs angesehen werden. Dies vereinfacht das Debugging bei der Suche von Fehlern deutlich. Hat man sich eine Deployment-Pipe aufgesetzt, kann man mit diesen Ergebnissen ein Deployment durchführen oder auch verhindern.
+</p>
+
+<h3>Jetzt aber mal los...</h3>
+
+<p>
+Nachdem ich euch nun mit Vor- und Nachteilen bombardiert habe, wollen wir nun mal loslegen und ein Projekt anlegen. Wenn Ihr bereits eine Angular 2 Applikation habt, könnt ihr auch direkt in dieser starten. Viele Templates beinhalten auch schon die Grundkonfiguration von Protractor.
+</p>
+
+<p>
+Als erstes müsst Ihr Protractor global sowie die notwendigen Dependencies installieren:
+  <pre>
+    <code>
+      npm install -g protractor
+
+      npm i --save-dev --save-exact request moment protractor-jasmine2-screenshot-reporter jasmine-spec-reporter
+    </code>
+  </pre>
+
+Einmal werden nun zwei Command-Line Tools installiert. Protractor selbst und der Webdriver Manager. Ruft am besten mal "protractor --version" auf um zu sehen ob das Framework sauber installiert wurde. Zudem werden Module für den Report installiert.
+</p>
+
+<p>
+Anschließend updaten wir den installieren Webdrivermanager und starten diesen:
+
+  <pre>
+    <code>
+      webdriver-manager update
+      webdriver-manager start
+    </code>
+  </pre>
+</p>
+
+<h3>Protractor konfigurieren</h3>
+
+<p>
+Nun kommen wir zur Konfiguration von Protractor. Hierzu wird die Datei "protractor.conf.js" benötigt. In dieser Datei definiert Ihr die komplette Konfiguration von Protractor. Dies kann ein sehr aufwendiger Prozess sein bzw. kann ein Prozess sein, der über die komplette Entwicklung des Projekts lebt. In dieser Konfiguration werden unter anderem Test-Suites, Browser sowie Reporter definiert. Ich persönlich versuche aber immer die "Wiederverwendbarkeit" von Konfigurationen zu ermöglichen. Daher lege ich drei Dateien in einem separaten Folder (protractor) im Projekt an:
+
+  <pre>
+    <code>
+      browserlist.json   << = Datei zur Definition welche Browser getestet werden sollen. (Lokal und über Saucelabs)
+      testsuites.json    << = Datei zur Definition der Test-Suites
+      protractor.conf.js << = Datei zur allgemeinen Konfiguration von Protractor
+    </code>
+  </pre>
+
+Diese drei Dateien wollen wir uns nun mal im Detail ansehen. Wobei es sich streng genommen nur um eine Datei handelt. Nämlich die "protractor.conf.js". Wie aber bereits geschrieben, versuche ich solche Konfigurationsfiles auf Wiederverwendbarkeit zu schreiben. Daher handelt es sich bei den zwei JSON Files nur um Objekte welche am Ende in der Konfigurationsdatei von Protractor required werden.
+</p>
+
+<h5>BROWSERLIST.JSON</h5>
+
+<p>
+In diesem JSON werden die zu testenden Browser definiert. Das Objekt hat insgesamt zwei Keys. Einmal "saucelab" und einmal "local". Wie es die Namen schon sagen, werden hier die Browser definiert welche lokal und auf SauceLabs getestet werden sollen:
+
+  <pre>
+    <code>
+    {
+      "saucelab": [
+
+        {
+          "browserName": "chrome",
+          "platform": "Windows 10",
+          "version": "54",
+          "name": "Google Chrome",
+          "shardTestFiles": true,
+          "maxInstances": 2
+        },
+
+
+        {
+          "browserName": "firefox",
+          "platform": "Windows 7",
+          "version": "46.0",
+          "name": "Mozilla Firefox",
+          "shardTestFiles": true,
+          "maxInstances": 2
+        },
+
+
+        {
+          "browserName": "internet explorer",
+          "platform": "Windows 10",
+          "version": "11.103",
+          "name": "Internet Explorer",
+          "shardTestFiles": true,
+          "maxInstances": 2
+        }
+      ],
+
+      "local": [
+        {
+          "browserName": "chrome"
+        }
+      ]
+      }
+    </code>
+  </pre>
+
+Die genaue Definition für die Konfiguration der SauceLab Browser findet ihr im SauceLabs <a href='https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/' target='_blank'>Platform Configurator</a>. Zudem möchte ich euch dennoch die Keys kurz erklären:
+<br>
+<br>
+  <ul>
+    <li>browserName (string): Der Name des Browsers welcher verwendet werden soll.</li>
+    <li>platform (string): Definiert das Betriebssystem auf welchem der Browser gestartet werden soll</li>
+    <li>version (string): Gibt die Version des Browsers an welcher in der virtuellen Instanz installiert werden soll</li>
+    <li>name (string): Frei definierbarer Name der Testinstanz</li>
+    <li>shardTestFiles (boolean): Gibt an ob die Instanz mit anderen Tests geteilt werden darf</li>
+    <li>maxInstances (number): Definiert die maximale Anzahl an Instanzen für diesen Browser</li>
+  </ul>
+
+Wenn Ihr euch das Objekt anseht, erkennt Ihr das hier auf SauceLabs die Browser Chrome, Firefox und Internet Explorer getestet werden sollen. Lokal wird nur Chrome getestet. Dieses Objekt könnte man auch direkt in die Konfigurationsdatei von Protractor mit einsetzen. Allerdings würde dies die Datei sehr lange und folglich unübersichtlich machen. Daher habe ich dieses JSON aus der protractor.conf.js gelöst und in ein separtes File geschoben. Dieses File wird in der Konfiguartion dann als Variable required.
+</p>
+
+<h5>TESTSUITES.JSON</h5>
+Das Objekt in diesem File wurde von mir genauso wie die "browserlist.json" aus der protractor.conf.js heraus getrennt um eine klarere Struktur zu erhalten. In diesem File werden die einzelnen Test-Suites definiert:
+
+  <pre>
+    <code>
+      {
+      "template": [ "../src/app/template/**/*e2e-spec.js" ],
+      "home": [ "../src/app/pages/home/**/*e2e-spec.js" ],
+      "site1": [ "../src/app/pages/site1/**/*e2e-spec.js" ]
+      }
+    </code>
+  </pre>
+
+Als Key wird der Name der Suite definiert. Das dazugehörige Array definiert die Dateien mit den Testfällen. Die Aufteilung der Tests in Suiten ist nicht zwingend erforderlich. Man kann theoretisch auch alle Testfiles ohne Suites mit angeben. Allerdings nimmt man sich hiermit ein großen Vorteil:
+<br>
+<br>
+Wenn ich die Testfälle in Suiten aufteile, habe ich anschließend auch die Möglichkeit Suiten einzeln zu testen. Andernfalls kann ich nur alle Tests auf einmal starten. Und da die E2E Tests mitunter auch sehr viel Zeit in Anspruch nehmen können, ist es sehr hilfreich nur einzelne Suiten aufzurufen.
+<p>
+
+</p>
+
+<h5>PROTRACTOR.CONF.JS</h5>
+
+<p>
+Hier mal eine Protractor Konfigurationsdatei welche das Testing lokal sowie auch über Saucelabs unterstüzt. Als Testframework verwende ich hier <a href='https://jasmine.github.io/' target='_blank'>Jasmine</a>. Zudem habe ich einen Testreporter mit integriert welcher Screenshots erstellt und diese zusammen mit dem Test-Report lokal ablegt.
+<br>
+Dieses File wollen wir uns mal Stück für Stück ansehen:
+
+  <pre>
+    <code>
+      'use strict';
+
+      const HtmlScreenshotReporter = require('protractor-jasmine2-screenshot-reporter');
+
+      const ENV = process.env;
+      const pkg = require('../package.json');
+      const browserslist = require('./browserslist.json');
+      const testsuites = require('./testsuites.json');
+      const q = require('q');
+      const request = require('request');
+      const moment = require('moment');
+
+      const time = moment().format('DD.MM.YYYY');
+
+      const reporter = new HtmlScreenshotReporter({
+        dest: 'coverage/screenshots',
+        filename: 'my-report.html'
+      });
+
+      // Setup the position of the tests. local / saucelab
+      let baseUrl = 'http://127.0.0.1:8080/';
+      let caps = browserslist['local'];
+      let sauceUser;
+      let sauceKey;
+
+      if (ENV.saucetest) {
+        sauceUser = 'UserName';
+        sauceKey = 'SauceLabKey';
+        baseUrl = 'http://your.url.com';
+        caps = browserslist['saucelab'];
+
+      }
+
+      exports.config = {
+        sauceUser,
+        sauceKey,
+        baseUrl,
+        suites: testsuites,
+
+        jasmineNodeOpts: {
+          showColors: true,
+          defaultTimeoutInterval: 120000,
+          isVerbose : true,
+          includeStackTrace : true
+        },
+
+        framework: 'jasmine2',
+        useAllAngular2AppRoots: true,
+
+        // Setup Capabilities
+        getMultiCapabilities: () => {
+          const deferred = q.defer();
+          const multiCaps = caps;
+
+          for (var i = 0; i < multiCaps.length; i++) {
+            multiCaps[i].name = pkg.name;
+            multiCaps[i].tags = [ pkg.version ]
+          }
+
+          deferred.resolve(multiCaps);
+          return deferred.promise;
+        },
+
+        // Setup the report before any tests start
+         beforeLaunch: () => {
+          return new Promise((resolve) => {
+            reporter.beforeLaunch(resolve);
+          });
+         },
+
+         // Assign the test reporter to each running instance
+         onPrepare: () => {
+           const SpecReporter = require('jasmine-spec-reporter');
+
+           jasmine.getEnv().addReporter(new SpecReporter({ displayStacktrace: true }));
+           jasmine.getEnv().addReporter(reporter);
+         },
+
+         // Close the report after all tests finish
+         afterLaunch: (exitCode) => {
+          return new Promise((resolve) => {
+            reporter.afterLaunch(resolve.bind(this, exitCode));
+          });
+         },
+
+         // Lifecycle when test-suite is complete
+         onComplete: (state) => {
+           browser.getSession().then((session) => {
+               return browser.getProcessedConfig().then((config) => {
+                 let local;
+
+                  if(ENV.localrun) {
+                    local = 'Local run: ';
+                  }
+
+                 if (ENV.saucetest) {
+                   console.log('.... Sending Pass-Status to Sauce Labs ....');
+
+                   request({ url: 'https://saucelabs.com/rest/v1/' + sauceUser + '/jobs/' + session.getId(), method: 'PUT', json: true, auth: { user: sauceUser, pass: sauceKey }, body: { passed: state, build: local + pkg.name + ' - ' + time }}, (err) => {
+                     if (err) {
+                       return console.log(err);
+                     }
+
+                     console.log('--- Pass-Status is sending sucessfully ---');
+                   });
+                 }
+
+                 console.log('SauceOnDemandSessionID=' + session.getId() + ' job-name=' + config.capabilities.name);
+                 return browser.get
+               });
+           });
+         }
+      }
+    </code>
+  </pre>
+
+Im oberen Teil laden wir die externen Module sowie die zwei bereits genannten JSON Files für die Browser- sowie der Testsuites Definitionen. Als externe Module werden hier folgende Dependencies geladen:
+<br>
+<br>
+  <ul>
+    <li>
+      <a href='https://www.npmjs.com/package/protractor-jasmine2-screenshot-reporter' target='_blank'>protractor-jasmine2-screenshot-reporter</a>: Das ist der Jasmine Reporter welcher die Screenshots während der Tests durchführt.
+      <br>
+      <br>
+      <p>
+      Dieses Module wird anschließend direkt mit der Variable "reporter" konfiguriert. Mit dem Key "dest" wird die Destination für die Screenshots definiert und mit dem Key "filename" der Pfad für den globalen Report.
+      </p>
+    </li>
+
+    <li>
+      <a href='https://www.npmjs.com/package/request' target='_blank'>request</a>: Dieses Modul benötigen wir für die Rückmeldung der Testergebnisse an SauceLabs. Siehe hierzu den Punkt Automatischer Build und Browsermatrix weiter unten.
+    </li>
+
+    <li>
+      <a href='http://momentjs.com/' target='_blank'>moment</a>: Das Modul MomentJS benötigen wir zur bestimmung des Timestamps im Build. Siehe ebenfalls weiter unten.
+    </li>
+  </ul>
+
+Wie bereits genannt, wird mit dieser Konfiguration von Protractor lokale sowie auch die Tests über SauceLabs definiert. Gesteuert wird das ganze über die Belegung der Umgebunsvariable "saucetest". Setzt man diese auf "true" wird der Test nicht lokal, sondern auf SauceLabs in der Cloud durchgeführt. Hierfür werden die Variablen "baseUrl, caps, sauceUser, sauceKey" benannt. Während ohne der Umgebungsvariable die baseUrl und die caps die lokalen Einstellungen abrufen, werden bei der Aktiverung der Umgebungsvariable die Einstellungen für SauceLabs verwendet.
+</p>
+
+<h5>Wie kann ich SauceLabs aktivieren</h5>
+
+<p>
+Um SauceLabs verwenden zu können, muss ein Account angelegt werden. Innerhalb der SauceLabs Verwaltung kann man sich dann die notwendige sauceUser-ID sowie den Key für die Protractor Einstellung generieren lassen. Diese kann man dann in der Variable "sauceUser" und "sauceKey" innerhalb der protractor.conf.js hinterlegen.
+</p>
+
+<h5>Tipp!</h5>
+
+<p>
+SauceLabs bietet die Möglichkeit zu seinem Account sogenannte Sub-Accounts anzulegen. Dies macht dann vorallem Sinn wenn man mehrere Applikationen hat welche man testen möchte. Hier ist es dann empfehlenswert pro Applikation einen eigenen Account anzulegen. Über diese einzelnen Accounts lässt sich anschließend auch eine Browsermatrix welche die Browserunterstützung anzeigt sowie eine Test-Badge erstellen.
+</p>
+
+<p>
+Nun aber zurück zur unserer Konfiguartionsdatei. Nachdem Ihr die Keys für SauceLabs eingesetzt habt, kommen wir nun direkt in die Config von Protractor. Als erstes seht ihr die Keys, welche wir direkt im Vorfeld bereits benannt haben und über die Umgebungsvariable steuern können. Im nächsten Key "jasmineNodeOpts" wird die Einstellung von Jasmine definiert. Hier gibt es unterschiedliche Ansätze Jasmine zu konfigurieren. Die kompletten Konfigurationsmöglichkeiten von Jasmine findet Ihr <a href='https://jasmine.github.io/' target='_blank'>auf der Jasmine Page</a>. Das Framework für Jasmine wird auch anschließend direkt mit dem Key "framework" definiert. Aber auch hier ist man frei mit der Wahl des Framworks.
+</p>
+
+<h5>Protractor Lifecylces</h5>
+
+<p>
+Nun kommen wir auch schon zu den verschiedenen Lifecylces welche von Protractor bei der Durchführung der Tests durchlebt werden. Innerhalb der verschiedenen Lifecycles haben wir dann die Möglichkeit unsere Reports, Fehler oder Rückmeldungen zu definieren:
+
+  <ul>
+    <li>
+      getMultiCapabilities: In diesem Lifecycle wird unsere Konfiguration der zu testenden Browser geladen.
+    </li>
+
+    <li>
+      beforeLaunch: Hier aktivieren wir unseren Jasmine Reporter, welcher die Screenshots in unseren Tests durchführt..
+    </li>
+
+    <li>
+      onPrepare: Hier aktivieren wir den Jasmine Reporter, welcher die Ergebnisse unserer Tests protokolliert.
+    </li>
+
+    <li>
+      afterLaunch: Hier wird die Protokollierung des Jasmine-Tests abgeschlossen.
+    </li>
+
+    <li>
+      onComplete: Dies ist der Lifecycle wenn der Test abgeschlossen wurde. Hier melden wir unsere Testergebnisse an den Build in SauceLabs zurück. Als Build-ID nehme ich hier den Namen aus der "package.json" sowie das aktuelle Datum. Hiermit wird der Build eindeutig.
+    </li>
+  </ul>
+
+  <div align='center'>
+    <img src='{{ site.baseurl_root }}/images/saucelabtest/result.jpg' style='width: 450px; margin-left: auto; margin-right: auto; display: block;'>
+  </div>
+</p>
+
+<h5>SauceLabs Browsermatrix</h5>
+
+<p>
+Wenn wir im Lifecycle "onComplete" unsere Testergebnisse sowie eindeutige Build-ID's zurückliefern, können wir uns von SauceLabs eine Browsermatrix erstellen lassen:
+</p>
+
+<div align='center'>
+  <img src='{{ site.baseurl_root }}/images/saucelabtest/browsermatrix.png' style='width: 450px; margin-left: auto; margin-right: auto; display: block;'>
+</div>
+<br>
+<p>
+Diese Browsermatrix kann dann beispielsweise in der Beschreibung des GitHub Repos oder auf Promotion Seite der Applikation mit eingebunden werden. Diese Browsermatrix wird vor allem immer mit dem Ergebnissen der Tests live aktualisiert. Das bedeutet wenn z.B. die Tests bei dem Firefox fehlschlagen, wird dieser automatisch Rot. Einbinden lässt sich die Matrix ganz einfach per Markdown:
+  <pre>
+    <code>
+    [![Sauce Test Status](https://saucelabs.com/buildstatus/YOUR_SAUCE_USERNAME)](https://saucelabs.com/u/YOUR_SAUCE_USERNAME)
+    </code>
+  </pre>
+
+<h5>Wichtig!</h5>
+
+<p>
+Diese Browsermatrix funktioniert nur, wenn die Testergebnisse an den Build in SauceLabs zurück geliefert werden. Aus diesem Grund wird in meiner "protractor.conf.js" im Lifecylce "onComplete" ein Request an die SauceLabs Rest API abgesetzt, welcher die Session-ID sowie die Ergebnisse zurück meldet. Anhand dieses Ergebnisses wird von SauceLabs diese Matrix erstellt. Mehr hierzu findet Ihr im <a href='https://wiki.saucelabs.com/display/DOCS/Using+Status+Badges+and+the+Browser+Matrix+Widget+to+Monitor+Test+Results' target='_blank'>Wiki von SauceLabs</a>
+</p>
+
+<h3>Meine ersten Test</h3>
+
+<p>
+Bei dieser Konfiguration stehen drei globale Variablen zu Verfügung:
+
+  <ul>
+    <li>browser: Zur Steuerung von Aktionen innerhalb vom Browser</li>
+    <li>element: Zur Lokalisierung von Elementen im DOM</li>
+    <li>protractor: Zur Steuerung von Protractor innerhalb eines Tests</li>
+  </ul>
+
+Ein einfaches Beispiel:
+
+  <pre>
+    <code>
+      describe('My first Angular 2 Application...', () => {
+        beforeAll(() => browser.get('http://my.page.com'));
+
+        it('... have the title "What a nice day"', () => {
+          expect(browser.getTitle()).toEqual('What a nice day');
+        });
+
+        it('... have an inputfield', () => {
+          let inputfield = element(by.tagName('input'));
+
+          expect(inputfield.isPresent()).toBe(true);
+        });
+      });
+    </code>
+  </pre>
+
+In dieser Suite sind zwei Tests enthalten. Allerdings öffnen wir die Page "http://my.page.com" zuerst im beforeAll Hook. Da es sich hier um eine Aktion im Browser handelt, verwenden wir hierzu die Variable "browser". Die Variable "browser" verwenden wir auch im ersten Tests. Denn wir möchten den Titel vom Browser prüfen. Also rufen wir folglich die variable Browser mit der Funktion "getTitle()" auf und prüfen über "expect" und "toEqual" den richtigen Inhalt.
+</p>
+
+<h5>Tipp!</h5>
+<p>
+Unter <a href='http://www.protractortest.org/#/api' target='_blank'>http://www.protractortest.org/#/api</a> findet Ihr die komplette API Beschreibung von Protractor.
+</p>
+
+<p>
+Im zweiten Test hingegen prüfen wir ob die Seite ein Inputfield enthält. Folglich benutzen wir das Element mit dem Locator "tagName" und suchen nach "input". Mit der Elementerweiterung "isPresent()" wird mir ein boolean zurückgeliefert mit welchen ich abprüfen kann ob das Element existent ist oder nicht.
+</p>
+
+<p>
+Wenn meine Tests dann fertig sind, kann ich Protractor ganz einfach mit
+  <pre>
+    <code>
+      protractor protractor.conf.js
+    </code>
+  </pre>
+
+lokal mit Chrome starten. Wenn ich wie bereits o.g. meine Tests in unterschiedliche Suiten aufteile, kann ich diese separat aufrufen mit:
+
+  <pre>
+    <code>
+      protractor protractor.conf.js --suite mySuite
+    </code>
+  </pre>
+
+Hier werden nur die Testfälle welche sich innerhalb der Suite mit dem Name "mySuite" befinden aufgerufen.
+</p>
+
+<p>
+Wenn dann lokal die Tests alle sauber durchlaufen, kann ich mal die Tests gegen verschiedene Browser auf SauceLabs laufen lassen. Wie bereits genannt, wird dies über die Umgebungsvariable "saucetest" geregelt. Folglich muss ich Protractor nun wie folgt aufrufen:
+
+  <pre>
+    <code>
+      saucetest=true protractor protractor.conf.js
+    </code>
+  </pre>
+</p>
+
+<h5>Tipp!</h5>
+
+<p>
+Nutzt das Skripting von Npm innerhalb der package.json. Hierüber könnte man ganz einfach das mit der Umgebungsvariable steuern. z.B. mit dem Befehl npm run e2e-sauce werden alle Tests auf SauceLabs ausgeführt und mit npn run e2e nur lokal.
+</p>
+
+<h3>Last but not least</h3>
+
+<p>
+Aufgrund der Breite dieses Spektrums, konnte ich mit diesem Artikel nur an der Oberfläche dieser Thematik schwimmen. Ebenso muss man sich mit dieser Thematik intensiv beschäftigen um die Vorteile aber auch die Nachteile kennen zu lernen. Zudem muss man erst seine Erfahrungen sammeln bis man seine eigene Konfiguration der Frameworks ausgefeilt hat. Die gilt auch für die Entwicklung der Tests. Glaubt mir.. Bis bei mir die ersten Tests wirklich stabil über die verschiedenen Browsern gelaufen sind, ist eine Menge Zeit vergangen. Aber jetzt im nach hinein muss ich feststellen, dass sich die investierte Zeit gelohnt hat.
+</p>
+
+<p>
+Wenn man intelligent die Unit-Tests und die E2E Tests über SauceLabs kombiniert, bekommt man sehr viel Sicherheit und Produktqualität. SauceLabs kostet zwar Geld, eine Reklamation aufgrund eines Bugs kostet unter Umständen aber noch mehr. Alleine die Möglichkeit auf SauceLabs sich mal schnell einen Browser nach Wahl in einer virtuellen Maschine manuell starten zu können ist Gold wert. Daher kann ich dieses Trio Protractor, Jasmine und SauceLabs nur empfehlen. Das ganze dann noch kombiniert in eine ausgeklügelte Deployment-Pipe mithilfe von <a href='https://circleci.com/' target='_blank'>CircleCI</a> per Nightly Build gibt dem ganzen dann noch die Krönung.
+</p>

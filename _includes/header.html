@@ -1,0 +1,33 @@
+<!-- Header -->
+<header id="header"{% if page.layout == 'landing' %} class="alt"{% endif %}>
+  <h1><a href="{{ site.baseurl }}/index.html">{{ site.title }}</a></h1>
+  <nav id="nav">
+    <ul>
+      <li class="special">
+        <a href="#menu" class="menuToggle"><span>Menu</span></a>
+        <div id="menu">
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="aboutme.html">{% translate menu.aboutme %}</a></li>
+            <li><a href="articles.html">{% translate menu.articles %}</a></li>
+            <li><a href="mailto:martin@fa-wiesmueller.de">{% translate menu.contact %}</a></li>
+            <li><a href="{{ "/feed.xml" | prepend: site.baseurl }}"
+                   class="icon fa-feed"> RSS Feed</a></li>
+          </ul>
+          <br>
+          <br>
+
+          <ul>
+            {% if site.lang == "de" %}
+              {% capture link1 %}{{ site.baseurl_root }}{{ page.url}}{% endcapture %}
+              <li><a href="{{ link1 }}" >Click here to read in english</a></li>
+            {% elsif site.lang == "en" %}
+              {% capture link2 %}{{ site.baseurl_root }}de{{ page.url  }}{% endcapture %}
+              <li><a href="{{ link2 }}" >Klicke hier um in Deutsch zu lesen</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </nav>
+</header>

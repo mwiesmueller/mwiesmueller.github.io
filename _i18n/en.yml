@@ -1,0 +1,33 @@
+global:
+  english: Click here to read in english
+  german: Klicke hier für Deutsch
+
+aboutme:
+  whoismartin: Who is Martin
+  born: Born at 9th October 1981 in Forchheim Germany.
+  familystate: Married, two little childs.
+  jobstate: Web- and clouddeveloper at WerbasInnotec Gmbh in Holzgerlingen Germany. Focus on Javascript, Node, Angular2.
+
+slogan:
+  aboutme: Sometimes the way is another ...
+
+projects:
+  slogan: Completed Projects
+
+landing:
+  article: Actual Articles
+
+articles:
+  examplelink:
+    aboutjade: <a href='https://github.com/mwiesmueller/gulp-jade-example', target='_blank'>Example on Github</a>
+    saucelabtest:
+  header:
+    aboutjade: Jade / Pug - The unknow creature of web
+    saucelabtest: E2E Test - The universial remote control for the browsers
+
+menu:
+  home: home
+  aboutme: Aboute me
+  articles: Articles
+  projects: Projects
+  contact: Contact
