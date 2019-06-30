@@ -2,13 +2,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Martin Wiesmüller</title>
-    <description>Software Developer and car-garage application designer
+    <description>Full Stack Developer / Application designer
 </description>
     <link>https://mwiesmueller.github.io//de/</link>
     <atom:link href="https://mwiesmueller.github.io//de/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 21 Mar 2017 16:19:07 +0100</pubDate>
-    <lastBuildDate>Tue, 21 Mar 2017 16:19:07 +0100</lastBuildDate>
-    <generator>Jekyll v3.2.1</generator>
+    <pubDate>Sun, 30 Jun 2019 15:46:47 +0200</pubDate>
+    <lastBuildDate>Sun, 30 Jun 2019 15:46:47 +0200</lastBuildDate>
+    <generator>Jekyll v3.8.5</generator>
     
   </channel>
 </rss>
